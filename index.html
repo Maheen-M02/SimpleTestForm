@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Student Feedback Form</title>
+		<style>
+			:root {
+				color-scheme: light;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+				line-height: 1.4;
+				background: #f6f7fb;
+				color: #111827;
+			}
+
+			.page {
+				min-height: 100dvh;
+				display: grid;
+				place-items: center;
+				padding: 24px;
+			}
+
+			.card {
+				width: min(560px, 100%);
+				background: #ffffff;
+				border: 1px solid #e5e7eb;
+				border-radius: 12px;
+				padding: 20px;
+			}
+
+			h1 {
+				margin: 0 0 6px;
+				font-size: 20px;
+			}
+
+			.subtitle {
+				margin: 0 0 18px;
+				font-size: 14px;
+				color: #6b7280;
+			}
+
+			form {
+				display: grid;
+				gap: 14px;
+			}
+
+			.row {
+				display: grid;
+				grid-template-columns: 1fr;
+				gap: 14px;
+			}
+
+			@media (min-width: 520px) {
+				.row {
+					grid-template-columns: 1fr 1fr;
+				}
+			}
+
+			label {
+				display: block;
+				font-weight: 600;
+				font-size: 13px;
+				margin-bottom: 6px;
+			}
+
+			input,
+			textarea,
+			select {
+				width: 100%;
+				border: 1px solid #d1d5db;
+				border-radius: 10px;
+				padding: 10px 12px;
+				font-size: 14px;
+				background: #ffffff;
+				color: inherit;
+			}
+
+			textarea {
+				min-height: 120px;
+				resize: vertical;
+			}
+
+			input:focus,
+			textarea:focus,
+			select:focus {
+				outline: 3px solid rgba(59, 130, 246, 0.25);
+				border-color: #3b82f6;
+			}
+
+			.hint {
+				margin-top: 6px;
+				font-size: 12px;
+				color: #6b7280;
+			}
+
+			.actions {
+				display: flex;
+				gap: 10px;
+				align-items: center;
+				justify-content: flex-end;
+				padding-top: 6px;
+			}
+
+			.status {
+				margin: 0;
+				padding: 10px 12px;
+				border-radius: 10px;
+				border: 1px solid #bbf7d0;
+				background: #f0fdf4;
+				color: #166534;
+				font-size: 14px;
+			}
+
+			.status[hidden] {
+				display: none;
+			}
+
+			button {
+				border: 0;
+				border-radius: 10px;
+				padding: 10px 14px;
+				font-size: 14px;
+				font-weight: 600;
+				background: #2563eb;
+				color: #ffffff;
+				cursor: pointer;
+			}
+
+			button:hover {
+				background: #1d4ed8;
+			}
+
+			button:active {
+				transform: translateY(1px);
+			}
+
+			.required {
+				color: #ef4444;
+				font-weight: 700;
+				margin-left: 4px;
+			}
+		</style>
+	</head>
+	<body>
+		<main class="page">
+			<section class="card" aria-label="Contact form">
+				<h1>Student Feedback Form</h1>
+				<p class="subtitle">Share your feedback about a class—thank you!</p>
+
+				<p id="status" class="status" role="status" aria-live="polite" hidden>
+					Form submitted successfully.
+				</p>
+
+				<form id="feedbackForm" action="#" method="post">
+					<div class="row">
+						<div>
+							<label for="studentName">Student name<span class="required" aria-hidden="true">*</span></label>
+							<input id="studentName" name="studentName" type="text" autocomplete="name" required />
+						</div>
+
+						<div>
+							<label for="studentId">Student ID</label>
+							<input id="studentId" name="studentId" type="text" inputmode="numeric" autocomplete="off" />
+							<div class="hint">Optional (if your school uses one).</div>
+						</div>
+					</div>
+
+					<div>
+						<label for="email">Email<span class="required" aria-hidden="true">*</span></label>
+						<input id="email" name="email" type="email" autocomplete="email" required />
+					</div>
+
+					<div class="row">
+						<div>
+							<label for="course">Course / Subject<span class="required" aria-hidden="true">*</span></label>
+							<input id="course" name="course" type="text" placeholder="e.g., Math 101" required />
+						</div>
+
+						<div>
+							<label for="instructor">Instructor</label>
+							<input id="instructor" name="instructor" type="text" placeholder="e.g., Ms. Khan" />
+						</div>
+					</div>
+
+					<div>
+						<label for="rating">Overall rating<span class="required" aria-hidden="true">*</span></label>
+						<select id="rating" name="rating" required>
+							<option value="" selected disabled>Select a rating</option>
+							<option value="5">5 - Excellent</option>
+							<option value="4">4 - Good</option>
+							<option value="3">3 - Okay</option>
+							<option value="2">2 - Needs improvement</option>
+							<option value="1">1 - Poor</option>
+						</select>
+					</div>
+
+					<div>
+						<label for="comments">Comments<span class="required" aria-hidden="true">*</span></label>
+						<textarea
+							id="comments"
+							name="comments"
+							placeholder="What did you like? What could be improved?"
+							required
+						></textarea>
+					</div>
+
+					<div class="actions">
+						<button type="submit">Send</button>
+					</div>
+				</form>
+			</section>
+		</main>
+
+		<script>
+			const form = document.getElementById('feedbackForm');
+			const status = document.getElementById('status');
+
+			form.addEventListener('submit', (event) => {
+				event.preventDefault();
+				status.hidden = false;
+				form.reset();
+			});
+		</script>
+	</body>
+</html>
